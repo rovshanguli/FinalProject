@@ -35,7 +35,6 @@ function UpdateEvent(props) {
 
 
   function initPromise() {
-debugger
     const response = axios.get(`/api/Event/GetById/${id}`)
     return new Promise(function (res, rej) {
       res(response);

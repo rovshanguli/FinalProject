@@ -20,10 +20,14 @@ namespace Api.Controllers
 
         [HttpPost]
         [Route("CreateOrder")]
-        public async Task<IActionResult> Create([FromBody] OrderDto orderDto)
+        public async Task<IActionResult> Create([FromBody] OrderMailDto orderMailDto)
         {
+            OrderDto orderDto = new OrderDto();
+            orderDto.EventId = orderMailDto.EventId;
+            orderDto.SeatId = orderMailDto.SeatId;
+            orderDto.Email = orderMailDto.Email;
             await _service.CreateAsync(orderDto);
-             _emailService.OrderCreate(orderDto.Email);
+             _emailService.OrderCreate(orderMailDto.Email, orderMailDto.EventName, orderMailDto.SeatId , orderMailDto.HallName, orderMailDto.Date);
             return Ok();
         }
 

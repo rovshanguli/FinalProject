@@ -52,7 +52,7 @@ namespace Api.Controllers
         [HttpPost]
         [Route("Login")]
         public async Task<string> Login([FromBody] LoginDto loginDto)
-        {
+        { 
             return await _service.Login(loginDto);
         }
 
@@ -75,7 +75,7 @@ namespace Api.Controllers
         [HttpPost]
         [Route("ResetPassword")]
         public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPassworddto)
-        {
+        { 
          
 
             var user = await _userManager.FindByEmailAsync(resetPassworddto.Email);
@@ -94,7 +94,7 @@ namespace Api.Controllers
         [HttpGet]
         [Route("GetUserByEmail/{email}")]
         public async Task<UserDto> GetUserByEmail([FromRoute] string email)
-        {
+        { 
             var user = await _service.GetUserByEmailAsync(email);
 
             return user;

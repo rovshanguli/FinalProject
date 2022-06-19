@@ -114,7 +114,7 @@ function Header() {
       Password: logpassword
     }, { 'Content-Type': 'multipart/form-data' })
       .then(function (response) {
-        console.log(response)
+        
         localStorage.setItem("token", response.data);
         Swal.fire({
           position: 'top-end',
@@ -138,7 +138,7 @@ function Header() {
     }, { 'Content-Type': 'multipart/form-data' })
       .then(function (response) {
         setSearchdata(response.data)
-        console.log(searchdata);
+        
       })
       .catch(function (error) {
       })
@@ -233,7 +233,7 @@ function Header() {
   // }
 
   const data = useSelector(state=> state.state.localCount);
-  console.log(data)
+  
 
   return (
     <div >

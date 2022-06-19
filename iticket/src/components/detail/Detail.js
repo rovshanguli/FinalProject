@@ -877,7 +877,7 @@ function Detail() {
     }
     let basket1 = JSON.parse(localStorage.getItem('basket'));
     basket1.push(seatsobj)
-    console.log(basket1);
+    
     return (
         <div>
             <div className='event-image'>
@@ -985,7 +985,7 @@ function Detail() {
                                 }
                                 if (index !== -1) selectedSeats.splice(index, 1);
                                 localStorage.setItem("seats", JSON.stringify(seatsobj));
-                                console.log(selectedSeats);
+                               
                             }
                         }
                         // unavailableCategories= {[2]}

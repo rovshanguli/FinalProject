@@ -1,12 +1,14 @@
 import React,{useState} from 'react';
 import './login.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
-
-function Login() {
+function Login(props) {
     const[email, setEmail] = useState();
     const[password, setPassword] = useState();
+    const navigate = useNavigate();
+
     
 
     async function login(e) {
@@ -17,7 +19,8 @@ function Login() {
         }, { 'Content-Type': 'multipart/form-data' })
           .then(function (response) {
             localStorage.setItem("token", JSON.stringify(response.data));
-            
+            props.user(localStorage.getItem("token"))
+            navigate('/main')
           })
           .catch(function (error) {
           })

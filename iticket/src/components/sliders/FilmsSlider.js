@@ -57,7 +57,7 @@ function FilmsSlider() {
         ]
     };
     const Detail = async id => {
-        console.log(id);
+        
     }
 
     return (

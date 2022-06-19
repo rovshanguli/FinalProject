@@ -59,7 +59,7 @@ function KidsSlider() {
         ]
     };
     const Detail = async id => {
-        console.log(id);
+        
     }
 
     return (

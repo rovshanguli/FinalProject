@@ -58,7 +58,7 @@ function TheatreSlider() {
         ]
     };
     const Detail = async id => {
-        console.log(id);
+      
     }
 
     return (

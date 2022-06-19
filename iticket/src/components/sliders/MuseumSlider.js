@@ -56,7 +56,7 @@ function MuseumSlider() {
     };
 
     const Detail = async id => {
-        console.log(id);
+
     }
     return (
         <div className='museum'>

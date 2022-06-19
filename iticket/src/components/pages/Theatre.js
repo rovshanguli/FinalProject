@@ -27,7 +27,7 @@ function Theatre() {
   }
 
   const Detail = async id => {
-    console.log(id);
+   
   }
 
   // let result = items.filter(event => event.price >= price[0] && event.price <= price[1] && moment(startAndEnd[0]).format('YYYY/MM/DD') < moment(event.date).format('YYYY/MM/DD'));

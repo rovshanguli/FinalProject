@@ -63,7 +63,7 @@ function InnovationsSlider() {
     };
 
     const Detail = async id => {
-        console.log(id);
+      
     } 
 
     return (

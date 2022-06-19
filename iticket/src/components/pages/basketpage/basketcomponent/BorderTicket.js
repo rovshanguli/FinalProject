@@ -1,71 +1,41 @@
-import React,{useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import '../../../../assets/sass/basket/borderticket.scss';
-import Swal from 'sweetalert2';
 import moment from 'moment';
 
 function BorderTicket() {
 
     const [event, setEvent] = useState();
-    const [forrender,setForrender] = useState();
+    const [forrender, setForrender] = useState();
     let tickets = JSON.parse(localStorage.getItem('seats'));
     let token = localStorage.getItem('token');
 
-    function parseJwt (token) {
+    function parseJwt(token) {
         var base64Url = token.split('.')[1];
         var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
-    
+
         return JSON.parse(jsonPayload);
     };
 
     const [user, setUser] = useState();
-    if(token != null){
+    if (token != null) {
         let usermail = parseJwt(token).sub[1]
         axios.get(`api/Account/GetUserByEmail/${usermail}`)
-        .then((res) =>
-        {
-            setUser(res.data)
-            
-        })
-        
+            .then((res) => {
+                setUser(res.data)
+
+            })
+
     }
 
 
     let seats = tickets.seats
-    function orders(e) {
-        e.preventDefault();
-        seats.forEach(ticket => {
-            createOrder()
-            async function createOrder() {
-                await axios.post('/api/Order/CreateOrder', {
-                    seatId: ticket,
-                    eventId: tickets.id
-                }, { 'Content-Type': 'multipart/form-data' })
-                    .then(function (response) {
-                        Swal.fire(
-                            'Created',
-                            'success',
-                        )
-                        localStorage.setItem("seats", JSON.stringify([]));
-                    })
-                    .catch(function (error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!',
-                            footer: '<a href="">Why do I have this issue?</a>'
-                        })
-
-                    });
-            }
-        });
-        
-    }
+    
 
     useEffect(() => {
         function fetchSampleData() {
@@ -99,27 +69,28 @@ function BorderTicket() {
 
         fetchResult()
 
-        
-        
+
+
     }, [tickets.id]);
 
     if (seats == null) {
         seats = []
     }
-    
-    
+
+
 
     // let result = items.filter(event => event.price >= price[0] && event.price <= price[1] && moment(startAndEnd[0]).format('YYYY/MM/DD') < moment(event.date).format('YYYY/MM/DD'));
-  
+
     function clearSeats(e) {
         e.preventDefault()
         localStorage.removeItem('seats')
 
-        localStorage.setItem('seats',JSON.stringify([]))
+        localStorage.setItem('seats', JSON.stringify([]))
         tickets = JSON.parse(localStorage.getItem('seats'));
         setForrender('');
         console.log(forrender);
     }
+    
     return (
         <div className='container'>
             <div className="row mt-5 ticketsonline">
@@ -161,31 +132,31 @@ function BorderTicket() {
                                 <Form className='mt-5'>
 
                                     <Form.Group className="mb-4" controlId="formBasicText">
-                                    <Form.Label> Ad və Soy Ad</Form.Label>
-                                        <Form.Control type="text" defaultValue={user?.fullName}  />
+                                        <Form.Label> Ad və Soy Ad</Form.Label>
+                                        <Form.Control type="text" defaultValue={user?.fullName} />
                                     </Form.Group>
                                     {/* <Form.Group className="mb-4" controlId="formBasicText">
                                         <Form.Control type="text" placeholder="Soy Ad" />
                                     </Form.Group> */}
 
                                     <Form.Group className="mb-4" controlId="formBasicNumber">
-                                    <Form.Label> Telefon Nömrəsi</Form.Label>
-                                        <Form.Control type="text" defaultValue={user?.phoneNumber}  />
+                                        <Form.Label> Telefon Nömrəsi</Form.Label>
+                                        <Form.Control type="text" defaultValue={user?.phoneNumber} />
                                     </Form.Group>
                                     <Form.Group className="mb-4" controlId="formBasicEmail">
-                                    <Form.Label> Email</Form.Label>
-                                        <Form.Control type="email" defaultValue={user?.email}   />
+                                        <Form.Label> Email</Form.Label>
+                                        <Form.Control type="email" defaultValue={user?.email} />
                                     </Form.Group>
                                     <Form.Group className="mb-4" controlId="formBasicCheckbox">
 
                                         <Form.Check type="checkbox" label=" Şərtləri və qaydaları qəbul edirəm." />
                                     </Form.Group>
-                                    
-                                    <Link to='' onClick={(e) => orders(e)}> 
-                                    <Button className='tickord' type="submit" >
-                                        Sifariş Yarat
-                                    </Button>
-                                     </Link> 
+
+                                    <Link to='/order'>
+                                        <Button className='tickord' type="submit" >
+                                            Sifariş Yarat
+                                        </Button>
+                                    </Link>
 
                                 </Form>
                             </div>

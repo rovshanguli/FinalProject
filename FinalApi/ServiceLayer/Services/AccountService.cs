@@ -18,7 +18,7 @@ namespace ServiceLayer.Services
                                  IMapper mapper,
                                  ITokenService tokenService,
                                  IEmailService emailService)
-        {
+        { 
             _mapper = mapper;
             _userManager = userManager;
             _tokenService = tokenService;
@@ -26,7 +26,7 @@ namespace ServiceLayer.Services
         }
 
         public async Task<string> Login(LoginDto loginDto)
-        {
+        { 
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
             if (user is null) return null;

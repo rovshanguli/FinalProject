@@ -14,23 +14,28 @@ import UpdateCategory from './components/Category/UpdateCategory';
 import HallUpdate from './components/Hall/HallUpdate';
 import SliderUpdate from './components/Slider/SliderUpdate';
 import Login from './components/Account/Login';
-import Protection from './components/Protection'
+import Protection from './components/Protection';
+import {useState} from 'react';
+
+
 
 import UpdateEvent from './components/Event/UpdateEvent';
 function App() {
-  return (
-    <Router>
-      <div className="container-scroller">
-        <Navbar />
-        <div className='container-fluid page-body-wrapper'>
-          <SideBar />
+  let [user, setUser] = useState("");
 
+
+  return (
+    <Router >
+      <div className="container-scroller">
+        {(user===localStorage.getItem("token") || localStorage.getItem("token") != null ) ? <Navbar /> : ''}
+        <div className='container-fluid page-body-wrapper'>
+        {(user===localStorage.getItem("token") || localStorage.getItem("token") != null ) ? <SideBar /> : ''}
           <div className="main-panel">
             <div className="content-wrapper">
               <div className="row">
                 <Routes>
-                  <Route path="/login" element={<Login />} />
-                  <Route element={<Protection />}>
+                  <Route path='/login' element={<Login user={setUser}/>}/>
+                  <Route element={<Protection/>}>
                     <Route path="/events" element={<EventTable />} />
                     <Route path="/eventcreate" element={<CreateEvent />} />
                     <Route path="/hallcreate" element={<HallCreate />} />
@@ -44,6 +49,7 @@ function App() {
                     <Route path="/sliderupdate/:id" element={<SliderUpdate />} />
                     <Route path="/eventupdate/:id" element={<UpdateEvent />} />
                   </Route>
+
                 </Routes>
               </div>
             </div>

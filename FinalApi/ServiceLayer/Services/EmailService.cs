@@ -67,7 +67,7 @@ namespace ServiceLayer.Services
             await _userManager.ConfirmEmailAsync(user, token);
         }
 
-        public void OrderCreate(string email)
+        public void OrderCreate(string email,string eventname, string seat, string hallname, string date)
         {
 
             var message = new MimeMessage();
@@ -82,9 +82,9 @@ namespace ServiceLayer.Services
             {
                 emailbody = streamReader.ReadToEnd();
             }
+            
 
-
-            emailbody = emailbody.Replace("{{email}}", $"{email}");
+            emailbody = emailbody.Replace("{{eventname}}", $"{eventname}").Replace("{{seatid}}",$"{seat}").Replace("{{hallname}}", $"{hallname}").Replace("{{date}}", $"{date}");
             message.Body = new TextPart(TextFormat.Html) { Text = emailbody };
 
             using var smtp = new SmtpClient();
@@ -100,7 +100,7 @@ namespace ServiceLayer.Services
            
             var message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("EduHome", "code.test.iticket@gmail.com"));
+            message.From.Add(new MailboxAddress("ITicket", "code.test.iticket@gmail.com"));
 
             message.To.Add(new MailboxAddress(user.FullName,forgotPassword.Email));
             message.Subject = "Reset Password";

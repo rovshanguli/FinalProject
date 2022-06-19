@@ -9,7 +9,7 @@ namespace ServiceLayer.Services.Interfaces
     {
         void Register(RegisterDto registerDto, string link);
         Task ConfirmEmail(string userId, string token);
-        void OrderCreate(string email);
+        void OrderCreate(string email, string eventname,string seat, string hallname, string date);
         void ForgotPassword(AppUser user,string url,ForgotPasswordDto forgotPassword);
     }
 }

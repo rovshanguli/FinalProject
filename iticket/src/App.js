@@ -74,7 +74,7 @@ function App() {
           <Route exact path="/order" element={<Order />} />
           <Route exact path="/loadmore" element={<LoadMore />} />
           <Route exact path="/favorites" element={<Favorites />} />
-          <Route exact path="/forgotpassword/:email" element={<ForgotPassword />} />
+          <Route exact path="/forgotpassword/:email/*" element={<ForgotPassword />} />
         </Routes>
         <Footer />
       </div>
