@@ -47,8 +47,6 @@ function App() {
     <Router>
       <div>
         <Header />
-
-    
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/allevents" element={<AllEvents />} />

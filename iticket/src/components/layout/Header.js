@@ -7,7 +7,10 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Swal from 'sweetalert2';
 import '../../assets/sass/layout/header.scss';
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux';
+import { useTranslation } from "react-i18next";
+import Cookies from 'js-cookie';
+
 
 
 
@@ -70,6 +73,7 @@ const style = {
 
 
 function Header() {
+  const { t } = useTranslation();
   //Prop for api start
   const [fullname, setFullname] = useState();
   const [username, setUsername] = useState();
@@ -114,7 +118,7 @@ function Header() {
       Password: logpassword
     }, { 'Content-Type': 'multipart/form-data' })
       .then(function (response) {
-        
+
         localStorage.setItem("token", response.data);
         Swal.fire({
           position: 'top-end',
@@ -138,7 +142,7 @@ function Header() {
     }, { 'Content-Type': 'multipart/form-data' })
       .then(function (response) {
         setSearchdata(response.data)
-        
+
       })
       .catch(function (error) {
       })
@@ -184,8 +188,8 @@ function Header() {
   const [loginOpen, setLoginOpen] = React.useState(false);
   const handleLoginOpen = () => {
     setLoginOpen(true)
-  setRegisterOpen(false)
-  setForgotOpen(false)
+    setRegisterOpen(false)
+    setForgotOpen(false)
   };
   const [registerOpen, setRegisterOpen] = React.useState(false);
   const handleRegisterOpen = () => {
@@ -198,11 +202,15 @@ function Header() {
     setSearchOpen(false)
     setSearchdata([])
   }
-  
+
   useEffect(() => {
     //BasketResult();
 
   })
+  function changeLng(value) {
+    document.cookie = `i18next=${value}`;
+    window.location.reload(true);
+  }
 
 
   // function BasketResult() {
@@ -225,15 +233,15 @@ function Header() {
 
   //     }
   //     setBasketnum(count-1)
-      
+
 
   //   }
 
 
   // }
 
-  const data = useSelector(state=> state.state.localCount);
-  
+  const data = useSelector(state => state.state.localCount);
+
 
   return (
     <div >
@@ -248,7 +256,7 @@ function Header() {
                 style={{ maxHeight: '100px' }}
                 navbarScroll
               >
-                <NavLink style={{ textDecoration: 'none', fontSize: '25px' }} className="nav-link px-3 navba" to="/allevents">Tədbirlər</NavLink>
+                <NavLink style={{ textDecoration: 'none', fontSize: '25px' }} className="nav-link px-3 navba" to="/allevents">{t('tədbirlər')}</NavLink>
                 <NavLink style={{ textDecoration: 'none', fontSize: '25px' }} className="nav-link px-3 navba" to="/concerts">Konsertlər</NavLink>
                 <NavLink style={{ textDecoration: 'none', fontSize: '25px' }} className="nav-link px-3 navba" to="/theatre"> Tamaşalar</NavLink>
                 <NavLink style={{ textDecoration: 'none', fontSize: '25px' }} className="nav-link px-3 navba" to="/kids">Uşaqlar</NavLink>
@@ -256,10 +264,16 @@ function Header() {
                 <NavLink style={{ textDecoration: 'none', fontSize: '25px' }} className="nav-link px-3 navba" to="/films">Filmlər</NavLink>
                 <NavLink style={{ textDecoration: 'none', fontSize: '25px' }} className="nav-link px-3 navba" to="/tourism">Turizm</NavLink>
               </Nav>
+
               <div className="basket d-flex justify-content-end">
+                <select name="" id="" defaultValue={Cookies.get('i18next')} onChange={(e) => changeLng(e.target.value)}>
+                  <option value="en">en</option>
+                  <option value="az">az</option>
+                </select>
                 <NavLink style={{ textDecoration: 'none', fontSize: '25px' }} className="nav-link navba" to="/favorites"><i className="far fa-heart"></i></NavLink>
                 <NavLink style={{ textDecoration: 'none', fontSize: '25px' }} className="nav-link navba" to="/" onClick={handleSearchOpen}><i className="fas fa-search"></i></NavLink>
                 <NavLink style={{ textDecoration: 'none', fontSize: '25px' }} className="nav-link navba" to="/basket"><i className="fas fa-shopping-basket"></i> <span>{data}</span></NavLink>
+
                 <NavLink style={{ textDecoration: 'none', fontSize: '25px' }} className="nav-link navba" to="/" onClick={handleLoginOpen}> <i className="far fa-user-circle"></i> </NavLink>
               </div>
             </Navbar.Collapse>
