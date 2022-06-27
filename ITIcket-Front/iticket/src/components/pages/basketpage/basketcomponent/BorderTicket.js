@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 import '../../../../assets/sass/basket/borderticket.scss';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 function BorderTicket(params) {
-
+    const navigate = useNavigate();
     const [event, setEvent] = useState();
     let tickets = JSON.parse(localStorage.getItem('seats'));
     let token = localStorage.getItem('token');
@@ -31,8 +32,6 @@ function BorderTicket(params) {
             })
 
     }
-
-
     let seats = tickets.seats
 
 
@@ -89,6 +88,13 @@ function BorderTicket(params) {
         window.location.reload();
     }
 
+    function order() {
+        if(user == null){
+            alert('Please login to order')
+        }else{
+            navigate('/order')
+        }
+    }
     const { t } = useTranslation();
 
     return (
@@ -119,7 +125,7 @@ function BorderTicket(params) {
                                             <div className='tickbuton'>
                                                 <b> {event?.price} ₼</b>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -140,7 +146,6 @@ function BorderTicket(params) {
                                     {/* <Form.Group className="mb-4" controlId="formBasicText">
                                         <Form.Control type="text" placeholder="Soy Ad" />
                                     </Form.Group> */}
-
                                     <Form.Group className="mb-4" controlId="formBasicNumber">
                                         <Form.Label>{t("phone")}</Form.Label>
                                         <Form.Control type="text" defaultValue={user?.phoneNumber} />
@@ -153,13 +158,9 @@ function BorderTicket(params) {
 
                                         <Form.Check type="checkbox" label=" Şərtləri və qaydaları qəbul edirəm." />
                                     </Form.Group>
-
-                                    <Link to='/order'>
-                                        <Button className='tickord' type="submit" >
-                                      {t("createorder")}
+                                        <Button className='tickord' onClick={(e) => order(e)} type="submit" >
+                                            {t("createorder")}
                                         </Button>
-                                    </Link>
-
                                 </Form>
                             </div>
                         </div>
