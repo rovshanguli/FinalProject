@@ -21,18 +21,23 @@ import { useState } from 'react';
 
 
 import UpdateEvent from './components/Event/UpdateEvent';
+import Users from './components/Users/Users';
 function App() {
 
   let [user, setUser] = useState("");
   let currentToken = localStorage.getItem('token');
   let currentUser;
   function parseJwt(token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+    if(token.length > 50){
+      var base64Url = token.split('.')[1];
+    }
+    if (base64Url !== undefined) {
+      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
 
+    }
     return JSON.parse(jsonPayload);
   };
   let userdet;
@@ -44,18 +49,18 @@ function App() {
     currentUser = currentToken;
     console.log(user);
   }
-  
+
   return (
     <Router >
       <div className="container-scroller">
-        {(localStorage.getItem("token") === currentUser) ? <Navbar /> : ''}
+        {(localStorage.getItem("token") === currentUser && currentToken.length > 100) ? <Navbar /> : ''}
         <div className='container-fluid page-body-wrapper'>
-          {(localStorage.getItem("token") === currentUser) ? <SideBar /> : ''}
+          {(localStorage.getItem("token") === currentUser && currentToken.length > 100) ? <SideBar /> : ''}
           <div className="main-panel">
             <div className="content-wrapper">
               <div className="row">
                 <Routes>
-                  <Route path='/' element={<Login user={setUser} />} />
+                  <Route path='/login' element={<Login user={setUser} />} />
                   <Route element={<Protection />}>
                     <Route path="/events" element={<EventTable />} />
                     <Route path="/eventcreate" element={<CreateEvent />} />
@@ -69,6 +74,7 @@ function App() {
                     <Route path="/hallupdate/:id" element={<HallUpdate />} />
                     <Route path="/sliderupdate/:id" element={<SliderUpdate />} />
                     <Route path="/eventupdate/:id" element={<UpdateEvent />} />
+                    <Route path="/users" element={<Users />} />
                   </Route>
                 </Routes>
               </div>

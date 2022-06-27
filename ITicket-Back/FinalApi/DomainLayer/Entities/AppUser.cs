@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DomainLayer.Common;
+using Microsoft.AspNetCore.Identity;
 
 namespace DomainLayer.Entities
 {

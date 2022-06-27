@@ -114,5 +114,20 @@ namespace Api.Controllers
 
             return user;
         }
+
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _service.GetAllUsers();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("ChangeRole/{id}")]
+        public async Task ChangeRole([FromRoute]string id)
+        {
+            await _service.ChangeRole(id);
+        }
     }
 }

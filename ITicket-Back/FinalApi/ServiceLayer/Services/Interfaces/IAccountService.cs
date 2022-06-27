@@ -1,6 +1,7 @@
 ﻿using DomainLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using ServiceLayer.DTOs.AppUser;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ServiceLayer.Services.Interfaces
@@ -13,5 +14,9 @@ namespace ServiceLayer.Services.Interfaces
         Task<string> Login(LoginDto loginDto);
         Task ConfirmEmail(string userId, string token);
         Task<UserDto> GetUserByEmailAsync(string email);
+        Task<List<UserDto>> GetAllUsers();
+        Task ChangeRole(string Id);
+
+
     }
 }

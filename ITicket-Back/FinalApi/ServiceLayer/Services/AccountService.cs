@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DomainLayer.Entities;
 using Microsoft.AspNetCore.Identity;
+using RepositoryLayer.Repositories.Interfaces;
 using ServiceLayer.DTOs.AppUser;
 using ServiceLayer.Services.Interfaces;
 using System;
@@ -15,15 +16,18 @@ namespace ServiceLayer.Services
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
         private readonly IEmailService _emailService;
+        private readonly IUserRepository _repository;
         public AccountService(UserManager<AppUser> userManager,
                                  IMapper mapper,
                                  ITokenService tokenService,
-                                 IEmailService emailService)
+                                 IEmailService emailService,
+                                 IUserRepository repository)
         {
             _mapper = mapper;
             _userManager = userManager;
             _tokenService = tokenService;
             _emailService = emailService;
+            _repository = repository;
         }
 
         public async Task<string> Login(LoginDto loginDto)
@@ -45,7 +49,7 @@ namespace ServiceLayer.Services
         {
             var user = _mapper.Map<AppUser>(registerDto);
             await _userManager.CreateAsync(user, registerDto.Password);
-            await _userManager.AddToRoleAsync(user, "Admin");
+            await _userManager.AddToRoleAsync(user, "User");
 
         }
         public async Task Update(AppUser appUser,UpdateUserDto updateUserDto)
@@ -91,6 +95,18 @@ namespace ServiceLayer.Services
             var appuser = await _userManager.FindByEmailAsync(email);
             var user = _mapper.Map<UserDto>(appuser);
             return user;
+        }
+
+        public async Task<List<UserDto>> GetAllUsers()
+        {
+            var model = await _repository.GetAllAsync();
+            var res = _mapper.Map<List<UserDto>>(model);
+            return res;
+        }
+
+        public async Task ChangeRole(string id)
+        {
+            await _repository.ChangeRole(id);
         }
     }
 }

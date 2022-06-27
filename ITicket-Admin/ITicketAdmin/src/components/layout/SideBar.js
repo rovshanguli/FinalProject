@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState ,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
@@ -18,7 +18,7 @@ function SideBar() {
     };
 
     const [user, setUser] = useState();
-    
+
     useEffect(() => {
         if (token != null) {
             let email = parseJwt(token).sub[1]
@@ -28,11 +28,21 @@ function SideBar() {
                 })
         }
     }, [token])
- 
 
-  
+
+
     let userdet = parseJwt(token)["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-   
+    let users;
+    if (userdet === "SuperAdmin") {
+        users = <li className="nav-item">
+            <NavLink className="menu-title nav-link" to='/users'><span >Users</span></NavLink>
+            <i className="icon-screen-desktop menu-icon"></i>
+        </li>
+    }else{
+        users = ""
+    }
+
+
     return (
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
             <ul className="nav">
@@ -44,7 +54,7 @@ function SideBar() {
                         </div>
                         <div className="text-wrapper">
                             <p className="profile-name">{user?.fullName}</p>
-                            <p className="designation">{userdet }</p>
+                            <p className="designation">{userdet}</p>
                         </div>
                         <div className="icon-container">
                             <i className="icon-bubbles"></i>
@@ -55,6 +65,7 @@ function SideBar() {
                 <li className="nav-item nav-category">
                     <span className="nav-link">Dashboard</span>
                 </li>
+                {users}
                 <li className="nav-item">
 
                     <NavLink className="menu-title nav-link" to='/events'><span >Event</span></NavLink>
@@ -63,12 +74,10 @@ function SideBar() {
 
                 </li>
                 <li className="nav-item">
-
-
                     <NavLink className="menu-title nav-link" to='/halls'><span >Hall</span></NavLink>
                     <i className="icon-screen-desktop menu-icon"></i>
-
                 </li>
+
 
                 <li className="nav-item">
 

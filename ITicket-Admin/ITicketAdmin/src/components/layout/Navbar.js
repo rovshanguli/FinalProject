@@ -7,7 +7,7 @@ function Navbar() {
     const [forrender, setForrender] = useState();
     function clearToken(e) {
         e.preventDefault()
-        localStorage.removeItem('token')
+        localStorage.setItem('token', '');
 
 
 
@@ -21,7 +21,7 @@ function Navbar() {
             timer: 1500
         })
 
-        window.location.assign('http://localhost:3001/')
+        window.location.assign(window.location.origin + '/login');
     };
 
     function parseJwt(token) {

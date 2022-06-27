@@ -28,18 +28,15 @@ function HallCreate() {
       '/api/Hall/CreateHall',
       bodyParameters,
       config
-    ).then(
-      Swal.fire(
-        hallname,
-        'Created',
-        'success'
-      )
-    ).catch(Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Something went wrong!',
-      footer: '<a href="">Why do I have this issue?</a>'
-    }));
+    ).then((response) => {
+      Swal.fire({
+        title: 'Success',
+        text: 'Create Hall Success',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      })
+    })
+
 
 
   }

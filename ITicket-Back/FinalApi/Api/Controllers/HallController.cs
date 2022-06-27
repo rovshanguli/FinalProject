@@ -16,7 +16,8 @@ namespace Api.Controllers
 
         [HttpPost]
         [Route("CreateHall")]
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "Admin")]
+        
         public async Task<IActionResult> Create([FromBody] HallDto hallDto)
         {
             await _service.CreateAsync(hallDto);
