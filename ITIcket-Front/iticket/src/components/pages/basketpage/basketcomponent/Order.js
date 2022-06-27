@@ -39,16 +39,17 @@ function Order() {
                     date: moment(event?.date).subtract(10, 'days').calendar()
                 }, { 'Content-Type': 'multipart/form-data' })
                     .then(function (response) {
-                        Swal.fire(
-                            'Created',
-                            'success',
-                        )
+                       
                         localStorage.setItem("seats", JSON.stringify([]));
+                        window.location.reload();
                     })
 
             }
         });
-
+        Swal.fire(
+            'Created',
+            'success',
+        )
 
 
     }

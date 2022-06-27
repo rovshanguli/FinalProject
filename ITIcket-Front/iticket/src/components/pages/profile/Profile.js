@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Button, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
@@ -22,22 +22,23 @@ function Profile() {
   };
 
   const [user, setUser] = useState();
-  if (token != null) {
-    let usermail = parseJwt(token).sub[1]
-    axios.get(`api/Account/GetUserByEmail/${usermail}`)
-      .then((res) => {
-        setUser(res.data)
 
-      })
+  useEffect(() => {
+    if (token != null) {
+      let usermail = parseJwt(token).sub[1]
+      axios.get(`api/Account/GetUserByEmail/${usermail}`)
+        .then((res) => {
+          setUser(res.data)
+        })
 
-  }
+    }
+  }, []);
 
   const [username, setUserName] = useState();
   const [fullname, setFullName] = useState();
   const [phonenumber, setPhoneNumber] = useState();
 
   async function updateuser(e) {
-    debugger
     e.preventDefault();
     await axios.put(`/api/Account/UpdateUser/${user?.email}`, {
       UserName: username,
@@ -69,9 +70,6 @@ function Profile() {
   function clearToken(e) {
     e.preventDefault()
     localStorage.removeItem('token')
-
-
-
     setForrender('');
     console.log(forrender);
   }
@@ -86,7 +84,7 @@ function Profile() {
             <div className='mt-4 profilemenu'>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label className='proflab'>E-poçt</Form.Label>
-                <Form.Control type="email" defaultValue={user?.email} placeholder="" />
+                <Form.Control type="email" readOnly defaultValue={user?.email} placeholder="" />
 
               </Form.Group>
 

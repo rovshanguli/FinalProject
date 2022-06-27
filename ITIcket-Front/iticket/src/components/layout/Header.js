@@ -130,7 +130,7 @@ function Header() {
     }, { 'Content-Type': 'multipart/form-data' })
       .then(function (response) {
         console.log(response)
-        if(response.data.status==="success" || response.status === 200){
+        if (response.data.status === "success" || response.status === 200) {
           localStorage.setItem("token", response.data);
           Swal.fire({
             position: 'top-end',
@@ -139,7 +139,7 @@ function Header() {
             showConfirmButton: false,
             timer: 1500
           })
-        }else{
+        } else {
           Swal.fire({
             position: 'top-end',
             icon: 'error',
@@ -148,11 +148,11 @@ function Header() {
             timer: 1500
           })
         }
-        
+
         setLoginOpen(false)
       })
       .catch(function (error) {
-        
+
       })
   }
 
@@ -160,15 +160,17 @@ function Header() {
     if (e.target.value == null) {
       e.target.value = ""
     }
-    await axios.get(`/api/Event/GetAllByName/${e.target.value}`, {
+    if(e.target.value.length > 1){
+      await axios.get(`/api/Event/GetAllByName/${e.target.value}`, {
 
-    }, { 'Content-Type': 'multipart/form-data' })
-      .then(function (response) {
-        setSearchdata(response.data)
-
-      })
-      .catch(function (error) {
-      })
+      }, { 'Content-Type': 'multipart/form-data' })
+        .then(function (response) {
+          setSearchdata(response.data)
+  
+        })
+        .catch(function (error) {
+        })
+    }
   }
 
   async function resetpassword(e) {
@@ -243,15 +245,23 @@ function Header() {
     setSearchdata([])
   }
 
+
   useEffect(() => {
-    //BasketResult();
-  })
+    if (token != null) {
+      let usermail = parseJwt(token).sub[1]
+      axios.get(`api/Account/GetUserByEmail/${usermail}`)
+        .then((res) => {
+          setUser(res.data)
+        })
+
+    }
+  }, []);
 
   function changeLng(value) {
     document.cookie = `i18next=${value}`;
     window.location.reload(true);
   }
-  
+
   const data = useSelector(state => state.state.localCount);
 
 
@@ -268,23 +278,12 @@ function Header() {
   };
 
   const [user, setUser] = useState();
-  if (token != null) {
-    let usermail = parseJwt(token).sub[1]
-    axios.get(`api/Account/GetUserByEmail/${usermail}`)
-      .then((res) => {
-        setUser(res.data)
 
-      })
-
-  }
 
   const [forrender, setForrender] = useState();
   function clearToken(e) {
     e.preventDefault()
     localStorage.removeItem('token')
-
-
-
     setForrender('');
     console.log(forrender);
   }
@@ -479,14 +478,14 @@ function Header() {
                   <div className='mt-5 ordersidebar'>
                     <ul>
                       <li className='p-2' >
-                        <Link to={"/profile"} onClick={handleProfileClose()} >Profil</Link>
+                        <Link to={"/profile"}  >Profil</Link>
                       </li>
 
                       <li className='p-2'>
-                        <Link to={"/updatepassword"} onClick={handleProfileClose()}>{t("shifreyenile")}</Link>
+                        <Link to={"/updatepassword"} >{t("shifreyenile")}</Link>
                       </li>
                       <li className='p-2'>
-                        <Link to={"/"} onClick={handleProfileClose()}><button className='logout' onClick={(e) => clearToken(e)}>{t("logout")}</button></Link>
+                        <Link to={"/"} ><button className='logout' onClick={(e) => clearToken(e)}>{t("logout")}</button></Link>
                       </li>
                     </ul>
                   </div>

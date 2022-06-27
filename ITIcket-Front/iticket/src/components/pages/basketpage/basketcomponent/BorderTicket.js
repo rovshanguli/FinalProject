@@ -83,10 +83,10 @@ function BorderTicket(params) {
     function clearSeats(e) {
         e.preventDefault()
         localStorage.removeItem('seats')
-
         localStorage.setItem('seats', JSON.stringify([]))
         tickets = JSON.parse(localStorage.getItem('seats'));
         params.ren('');
+        window.location.reload();
     }
 
     const { t } = useTranslation();

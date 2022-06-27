@@ -51,10 +51,19 @@ namespace ServiceLayer.Services
         public async Task Update(AppUser appUser,UpdateUserDto updateUserDto)
         {
             var appuse =  await _userManager.FindByIdAsync(appUser.Id);
-            var user = _mapper.Map(updateUserDto, appuse);
-             var upuser= await _userManager.UpdateAsync(user);
-        
-
+            if(updateUserDto.FullName != null)
+            {
+                appuse.FullName = updateUserDto.FullName;
+            }
+            if(updateUserDto.PhoneNumber != null)
+            {
+                appuse.PhoneNumber = updateUserDto.PhoneNumber;
+            }
+            if (updateUserDto.UserName != null)
+            {
+                appuse.UserName = updateUserDto.UserName;
+            }
+            var upuser= await _userManager.UpdateAsync(appuse);
         }
 
         public async Task UpdatePassword(AppUser appUser, UpdatePasswordDto updatePasswordDto)

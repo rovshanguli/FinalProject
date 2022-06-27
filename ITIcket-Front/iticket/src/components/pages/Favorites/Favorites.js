@@ -5,14 +5,14 @@ import React, {useState} from 'react';
 
 
 function Favorites() {
-    const [ren, setRen] = useState();
+    const[ren, setRen] = useState();
     let favorites;
     
     let favorit = JSON.parse(localStorage.getItem('favorites'));
     if (favorit?.length === 0 || favorit == null) {
         favorites = <NotFavorites />
     } else {
-        favorites = <BorderFavorites />
+        favorites = <BorderFavorites ren={setRen}/>
     }
 
     return (

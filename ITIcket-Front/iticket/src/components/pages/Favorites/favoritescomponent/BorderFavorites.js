@@ -43,6 +43,7 @@ function BorderFavorites(params) {
         localStorage.setItem('favorites', JSON.stringify([]))
         result = JSON.parse(localStorage.getItem('favorites'));
         setForrender('');
+        params.ren('');
         console.log(forrender);
     }
 

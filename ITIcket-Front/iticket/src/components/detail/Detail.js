@@ -70,9 +70,24 @@ function Detail() {
                     return resultBoolean // for await purpose
                 });
         }
+
+        
         fetchResult()
         loadSoldSeats()
+        
     }, [id]);
+
+    ( () => {
+        let basket = JSON.parse(localStorage.getItem('favorites'))
+            if (basket != null) {
+                for (let i = 0; i < basket.length; i++) {
+                    if (parseInt(basket[i].id) === parseInt(data?.id)) {
+                        let hearth = document.getElementById('hearth')
+                        hearth.style.color = 'yellow'
+                    }
+                }
+            }
+    } )();
 
     //Helpers start
     let selectedSeats = [];
@@ -866,6 +881,11 @@ function Detail() {
         localStorage.setItem('favorites', JSON.stringify(basket))
 
     }
+
+
+    
+        
+    
 
     const dispatch = useDispatch();
 
