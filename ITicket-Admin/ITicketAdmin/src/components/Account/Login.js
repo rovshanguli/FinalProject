@@ -12,7 +12,6 @@ function Login(props) {
     
 
     async function login(e) {
-    
         e.preventDefault();
         await axios.post(`/api/Account/Login`, {
           Email: email,

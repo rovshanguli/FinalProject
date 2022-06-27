@@ -7,7 +7,7 @@ function Navbar() {
     const [forrender, setForrender] = useState();
     function clearToken(e) {
         e.preventDefault()
-        localStorage.setItem('token', '');
+        localStorage.clear();
 
 
 
