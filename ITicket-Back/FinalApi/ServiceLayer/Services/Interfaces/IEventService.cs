@@ -16,5 +16,6 @@ namespace ServiceLayer.Services.Interfaces
 
         Task<List<EventDto>> GetByCateId(int id);
         Task<IEnumerable<EventDto>> GetAllNameAsync(string name);
+        Task<EventPaginateDto> Paginate(int num);
     }
 }

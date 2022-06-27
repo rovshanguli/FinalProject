@@ -129,18 +129,30 @@ function Header() {
       Password: logpassword
     }, { 'Content-Type': 'multipart/form-data' })
       .then(function (response) {
-
-        localStorage.setItem("token", response.data);
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Ugurla giris etdiz',
-          showConfirmButton: false,
-          timer: 1500
-        })
+        console.log(response)
+        if(response.data.status==="success" || response.status === 200){
+          localStorage.setItem("token", response.data);
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Ugurla giris etdiz',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }else{
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'Email və ya şifrə yanlışdır',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
+        
         setLoginOpen(false)
       })
       .catch(function (error) {
+        
       })
   }
 
@@ -239,33 +251,7 @@ function Header() {
     document.cookie = `i18next=${value}`;
     window.location.reload(true);
   }
-  // function BasketResult() {
-  //   let count = 0;
-
-  //   let sead = JSON.parse(localStorage.getItem('seats'))
-
-
-  //   if (sead === null) {
-
-
-  //     setBasketnum(count)
-
-  //   }
-  //   else {
-
-  //     for (let i = 0; i <= sead.seats.length; i++) {
-
-  //       count++
-
-  //     }
-  //     setBasketnum(count-1)
-
-
-  //   }
-
-
-  // }
-
+  
   const data = useSelector(state => state.state.localCount);
 
 
@@ -493,14 +479,14 @@ function Header() {
                   <div className='mt-5 ordersidebar'>
                     <ul>
                       <li className='p-2' >
-                        <Link to={"/profile"} >Profil</Link>
+                        <Link to={"/profile"} onClick={handleProfileClose()} >Profil</Link>
                       </li>
 
                       <li className='p-2'>
-                        <Link to={"/updatepassword"}>{t("shifreyenile")}</Link>
+                        <Link to={"/updatepassword"} onClick={handleProfileClose()}>{t("shifreyenile")}</Link>
                       </li>
                       <li className='p-2'>
-                        <Link to={"/"}><button className='logout' onClick={(e) => clearToken(e)}>{t("logout")}</button></Link>
+                        <Link to={"/"} onClick={handleProfileClose()}><button className='logout' onClick={(e) => clearToken(e)}>{t("logout")}</button></Link>
                       </li>
                     </ul>
                   </div>

@@ -6,10 +6,9 @@ import '../../../../assets/sass/basket/borderticket.scss';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 
-function BorderTicket() {
+function BorderTicket(params) {
 
     const [event, setEvent] = useState();
-    const [forrender, setForrender] = useState();
     let tickets = JSON.parse(localStorage.getItem('seats'));
     let token = localStorage.getItem('token');
 
@@ -29,7 +28,6 @@ function BorderTicket() {
         axios.get(`api/Account/GetUserByEmail/${usermail}`)
             .then((res) => {
                 setUser(res.data)
-
             })
 
     }
@@ -88,8 +86,7 @@ function BorderTicket() {
 
         localStorage.setItem('seats', JSON.stringify([]))
         tickets = JSON.parse(localStorage.getItem('seats'));
-        setForrender('');
-        console.log(forrender);
+        params.ren('');
     }
 
     const { t } = useTranslation();

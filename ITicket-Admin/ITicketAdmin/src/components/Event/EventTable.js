@@ -23,7 +23,6 @@ function EventTable() {
         const result = await axios.get("https://localhost:44351/api/Event/GetAllEvents", { headers: { "Authorization": `Bearer ${token}` } });
         setEvent(result.data);
         setTot(result.data.length)
-        console.log(token);
     }
     const deleteEvent = async id => {
         await axios.delete(`/api/Event/DeleteEvent/${id}`);
@@ -38,6 +37,7 @@ function EventTable() {
     useEffect(() => {
         loadEvents();
     }, []);
+    console.log(currentPage);
     return (
 
         <div className="col-lg-12 grid-margin stretch-card">

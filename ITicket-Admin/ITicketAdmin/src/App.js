@@ -69,7 +69,6 @@ function App() {
                     <Route path="/sliderupdate/:id" element={<SliderUpdate />} />
                     <Route path="/eventupdate/:id" element={<UpdateEvent />} />
                   </Route>
-
                 </Routes>
               </div>
             </div>

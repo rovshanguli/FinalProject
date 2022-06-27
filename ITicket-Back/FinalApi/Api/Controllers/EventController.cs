@@ -71,5 +71,12 @@ namespace Api.Controllers
         {
             return Ok(await _service.GetAllNameAsync(txt));
         }
+
+        [HttpGet]
+        [Route("Paginate/{num}")]
+        public async Task<IActionResult> Paginate([FromRoute] int num)
+        {
+            return Ok(await _service.Paginate(num));
+        }
     }
 }
