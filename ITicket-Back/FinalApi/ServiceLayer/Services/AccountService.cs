@@ -45,7 +45,7 @@ namespace ServiceLayer.Services
         {
             var user = _mapper.Map<AppUser>(registerDto);
             await _userManager.CreateAsync(user, registerDto.Password);
-            await _userManager.AddToRoleAsync(user, "SuperAdmin");
+            await _userManager.AddToRoleAsync(user, "Admin");
 
         }
         public async Task Update(AppUser appUser,UpdateUserDto updateUserDto)

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React,{useState} from 'react'
 import '../../../assets/sass/basket/basket.scss'
  import BorderTicket from './basketcomponent/BorderTicket'
 import NotTicket from './basketcomponent/NotTicket'

@@ -45,10 +45,11 @@ function CreateEvent() {
 
     
     async function create(e) {
+        
         e.preventDefault();
-        let token = JSON.parse(localStorage.getItem('token'))
-        await axios.post('/api/event/createEvent', { headers: { "Authorization": `Bearer ${token}` } } ,{
-
+        let token = JSON.parse(localStorage.getItem('token'));
+        
+        await axios.post('api/event/createEvent', { headers: { "Authorization": `Bearer ${token}` } } ,{
             Name: name,
             Image: img,
             Date: date,

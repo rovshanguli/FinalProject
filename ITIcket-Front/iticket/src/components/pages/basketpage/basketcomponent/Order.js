@@ -53,7 +53,7 @@ function Order() {
 
 
     }
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
     useEffect(() => {
         function fetchSampleData() {
             let method = 'get' // ex. get | post | put | delete , etc
@@ -104,6 +104,15 @@ function Order() {
   
       setForrender('');
       console.log(forrender);
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Çıxış Etdiniz',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      
+      window.location.assign('http://localhost:3000/')
     }
     const { t } = useTranslation();
 

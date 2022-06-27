@@ -12,9 +12,21 @@ function UpdatePassword() {
   const [forrender, setForrender] = useState();
   function clearToken(e) {
     e.preventDefault()
-    localStorage.removeItem('token');
+    localStorage.removeItem('token')
+
+
+
     setForrender('');
     console.log(forrender);
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Çıxış Etdiniz',
+      showConfirmButton: false,
+      timer: 1500
+    })
+    
+    window.location.assign('http://localhost:3000/')
   }
   function parseJwt(token) {
     var base64Url = token.split('.')[1];
@@ -29,23 +41,26 @@ function UpdatePassword() {
   const [user, setUser] = useState();
   let token = localStorage.getItem('token');
   useEffect(() => {
+
+
     if (token != null) {
+
       let email = parseJwt(token).sub[1]
       axios.get(`/api/Account/GetUserByEmail/${email}`)
         .then((res) => {
           setUser(res.data)
         })
     }
-  }, [token])
+  }, [])
 
   const [currentpassword, setCurrentPassword] = useState();
-  const [newpassword, setNewPassword]=useState();
+  const [newpassword, setNewPassword] = useState();
   async function resetPassword(e) {
 
     e.preventDefault();
     await axios.put(`/api/Account/UpdateUserPassword/${user?.email}`, {
       CurrentPassword: currentpassword,
-      NewPassword:newpassword
+      NewPassword: newpassword
 
 
     }, { 'Content-Type': 'multipart/form-data' })
@@ -76,7 +91,7 @@ function UpdatePassword() {
       <div className='col-lg-8 col-md-9 col-sm-12  mt-4'>
         <h2 className='mt-5'>{t("shifreyenile")}</h2>
         <div className='passwords mt-5'>
-          <Form onSubmit={(e)=> resetPassword(e)}>
+          <Form onSubmit={(e) => resetPassword(e)}>
             <div className='mt-4 updatepassw'>
               <Form.Group className="mb-3" controlId="formBasicOldPassword">
                 <Form.Label className='labtext'>{t("currentpass")}</Form.Label>
@@ -105,6 +120,13 @@ function UpdatePassword() {
 
             </div>
           </Form>
+
+
+
+
+
+
+
 
         </div>
       </div>

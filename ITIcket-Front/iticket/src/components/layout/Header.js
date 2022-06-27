@@ -130,7 +130,7 @@ function Header() {
     }, { 'Content-Type': 'multipart/form-data' })
       .then(function (response) {
         console.log(response)
-        if (response.data.status === "success" || response.status === 200) {
+        if(response.data.status==="success" || response.status === 200){
           localStorage.setItem("token", response.data);
           Swal.fire({
             position: 'top-end',
@@ -139,7 +139,7 @@ function Header() {
             showConfirmButton: false,
             timer: 1500
           })
-        } else {
+        }else{
           Swal.fire({
             position: 'top-end',
             icon: 'error',
@@ -148,11 +148,11 @@ function Header() {
             timer: 1500
           })
         }
-
+        
         setLoginOpen(false)
       })
       .catch(function (error) {
-
+        
       })
   }
 
@@ -245,22 +245,49 @@ function Header() {
     setSearchdata([])
   }
 
-
   useEffect(() => {
+    //BasketResult();
     if (token != null) {
       let usermail = parseJwt(token).sub[1]
       axios.get(`api/Account/GetUserByEmail/${usermail}`)
         .then((res) => {
           setUser(res.data)
+  
         })
-
+  
     }
-  }, []);
+  })
 
   function changeLng(value) {
     document.cookie = `i18next=${value}`;
     window.location.reload(true);
   }
+  // function BasketResult() {
+  //   let count = 0;
+
+  //   let sead = JSON.parse(localStorage.getItem('seats'))
+
+
+  //   if (sead === null) {
+
+
+  //     setBasketnum(count)
+
+  //   }
+  //   else {
+
+  //     for (let i = 0; i <= sead.seats.length; i++) {
+
+  //       count++
+
+  //     }
+  //     setBasketnum(count-1)
+
+
+  //   }
+
+
+  // }
 
   const data = useSelector(state => state.state.localCount);
 
@@ -278,7 +305,7 @@ function Header() {
   };
 
   const [user, setUser] = useState();
-
+ 
 
   const [forrender, setForrender] = useState();
   function clearToken(e) {
@@ -286,6 +313,15 @@ function Header() {
     localStorage.removeItem('token')
     setForrender('');
     console.log(forrender);
+
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Əməliyyat Uğurlu',
+      showConfirmButton: false,
+      timer: 1500
+    })
+  
   }
 
 
@@ -478,14 +514,14 @@ function Header() {
                   <div className='mt-5 ordersidebar'>
                     <ul>
                       <li className='p-2' >
-                        <Link to={"/profile"}  >Profil</Link>
+                        <Link to={"/profile"} onClick={(e)=> handleProfileClose(e)} >Profil</Link>
                       </li>
 
                       <li className='p-2'>
-                        <Link to={"/updatepassword"} >{t("shifreyenile")}</Link>
+                        <Link to={"/updatepassword"} onClick={(e)=> handleProfileClose(e)}>{t("shifreyenile")}</Link>
                       </li>
                       <li className='p-2'>
-                        <Link to={"/"} ><button className='logout' onClick={(e) => clearToken(e)}>{t("logout")}</button></Link>
+                        <Link to={"/"} onClick={(e)=> handleProfileClose(e)}><button className='logout' onClick={(e) => clearToken(e)}>{t("logout")}</button></Link>
                       </li>
                     </ul>
                   </div>

@@ -40,8 +40,9 @@ function App() {
     userdet = parseJwt(currentToken)["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
   }
 
-  if (userdet === "SuperAdmin") {
+  if (userdet === "SuperAdmin" || userdet === "Admin") {
     currentUser = currentToken;
+    console.log(user);
   }
   
   return (

@@ -8,36 +8,38 @@ function HallCreate() {
   const [hallname, setHallname] = useState();
   const [halladdress, setHalladdress] = useState();
   const [hallplace, setHallplace] = useState();
+  let token = JSON.parse(localStorage.getItem('token'))
+
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  };
+
+  const bodyParameters = {
+    Name: hallname,
+    Address: halladdress,
+    Place: hallplace,
+  };
 
   async function create(e) {
     e.preventDefault();
-    let token = JSON.parse(localStorage.getItem('token'))
-    await axios.post('/api/Hall/CreateHall',{ headers: { "Authorization": `Bearer ${token}` } } , {
-
-      Name: hallname,
-      Address: halladdress,
-      Place: hallplace,
 
 
-    }, { 'Content-Type': 'multipart/form-data' })
-      .then(function (response) {
-
-        Swal.fire(
-          hallname,
-          'Created',
-          'success'
-        )
-      })
-      .catch(function (error) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Something went wrong!',
-          footer: '<a href="">Why do I have this issue?</a>'
-        })
-
-      });
-
+    axios.post(
+      '/api/Hall/CreateHall',
+      bodyParameters,
+      config
+    ).then(
+      Swal.fire(
+        hallname,
+        'Created',
+        'success'
+      )
+    ).catch(Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      footer: '<a href="">Why do I have this issue?</a>'
+    }));
 
 
   }
