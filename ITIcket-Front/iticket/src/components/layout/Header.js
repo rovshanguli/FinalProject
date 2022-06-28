@@ -256,7 +256,10 @@ function Header() {
         })
   
     }
-  })
+
+
+    
+  },[])
 
   function changeLng(value) {
     document.cookie = `i18next=${value}`;
@@ -289,7 +292,7 @@ function Header() {
 
   // }
 
-  const data = useSelector(state => state.state.localCount);
+  let data = useSelector(state => state.state.localCount);
 
 
   let token = localStorage.getItem('token');
@@ -323,7 +326,13 @@ function Header() {
     })
   
   }
-
+  if(data === 0){
+    data = localStorage.getItem('seats');
+    if(data !== null){
+      data = JSON.parse(data);
+      data = data?.seats?.length;
+    }
+  }
 
 
 

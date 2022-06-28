@@ -24,11 +24,11 @@ namespace RepositoryLayer.Repositories
             _roleManager = roleManager;
         }
 
-        public async  Task ChangeRole(string id)
+        public async Task ChangeRole(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             var roles = await _userManager.GetRolesAsync(user);
-            if(roles[0] == "User")
+            if (roles[0] == "User")
             {
                 await _userManager.AddToRoleAsync(user, "Admin");
                 await _userManager.RemoveFromRoleAsync(user, "User");
@@ -36,7 +36,7 @@ namespace RepositoryLayer.Repositories
 
             if (roles[0] == "Admin")
             {
-                await _userManager.AddToRoleAsync(user, "SuperAdmin");
+                await _userManager.AddToRoleAsync(user, "User");
                 await _userManager.RemoveFromRoleAsync(user, "Admin");
             }
 
@@ -53,8 +53,9 @@ namespace RepositoryLayer.Repositories
             var user = await _userManager.FindByEmailAsync(email);
 
             var roles = await _userManager.GetRolesAsync(user);
-           
+
             return roles;
         }
     }
 }
+

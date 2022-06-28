@@ -54,20 +54,26 @@ namespace ServiceLayer.Services
         }
         public async Task Update(AppUser appUser,UpdateUserDto updateUserDto)
         {
-            var appuse =  await _userManager.FindByIdAsync(appUser.Id);
-            if(updateUserDto.FullName != null)
-            {
-                appuse.FullName = updateUserDto.FullName;
-            }
-            if(updateUserDto.PhoneNumber != null)
-            {
-                appuse.PhoneNumber = updateUserDto.PhoneNumber;
-            }
-            if (updateUserDto.UserName != null)
-            {
-                appuse.UserName = updateUserDto.UserName;
-            }
-            var upuser= await _userManager.UpdateAsync(appuse);
+           
+            
+                var appuse = await _userManager.FindByIdAsync(appUser.Id);
+                if (updateUserDto.FullName != null)
+                {
+                    appuse.FullName = updateUserDto.FullName;
+                }
+                if (updateUserDto.PhoneNumber != null)
+                {
+                    appuse.PhoneNumber = updateUserDto.PhoneNumber;
+                }
+                if (updateUserDto.UserName != null)
+                {
+                    appuse.UserName = updateUserDto.UserName;
+                }
+                var upuser = await _userManager.UpdateAsync(appuse);
+            
+
+
+
         }
 
         public async Task UpdatePassword(AppUser appUser, UpdatePasswordDto updatePasswordDto)
@@ -96,7 +102,6 @@ namespace ServiceLayer.Services
             var user = _mapper.Map<UserDto>(appuser);
             return user;
         }
-
         public async Task<List<UserDto>> GetAllUsers()
         {
             var model = await _repository.GetAllAsync();
@@ -111,7 +116,7 @@ namespace ServiceLayer.Services
 
         public async Task<IList<string>> GetUserRoles(string email)
         {
-           return await  _repository.GetRoleAsync(email);
+            return await _repository.GetRoleAsync(email);
         }
     }
 }

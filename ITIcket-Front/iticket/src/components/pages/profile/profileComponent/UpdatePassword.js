@@ -10,6 +10,7 @@ import axios from 'axios';
 function UpdatePassword() {
 
   const [forrender, setForrender] = useState();
+  const [repeatpass, setRepeatpass] = useState();
   function clearToken(e) {
     e.preventDefault()
     localStorage.removeItem('token')
@@ -25,7 +26,7 @@ function UpdatePassword() {
       showConfirmButton: false,
       timer: 1500
     })
-    
+
     window.location.assign('http://localhost:3000/')
   }
   function parseJwt(token) {
@@ -58,34 +59,43 @@ function UpdatePassword() {
   async function resetPassword(e) {
 
     e.preventDefault();
-    await axios.put(`/api/Account/UpdateUserPassword/${user?.email}`, {
-      CurrentPassword: currentpassword,
-      NewPassword: newpassword
+    if (repeatpass === newpassword) {
+      await axios.put(`/api/Account/UpdateUserPassword/${user?.email}`, {
+        CurrentPassword: currentpassword,
+        NewPassword: newpassword
 
 
-    }, { 'Content-Type': 'multipart/form-data' })
-      .then(function (response) {
+      }, { 'Content-Type': 'multipart/form-data' })
+        .then(function (response) {
 
-        Swal.fire(
-          "Şifrəniz Yeniləndi",
-          'Updated',
-          'success'
-        )
-      })
-      .catch(function (error) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Something went wrong!',
-          footer: '<a href="">Why do I have this issue?</a>'
+          Swal.fire(
+            "Şifrəniz Yeniləndi",
+            'Updated',
+            'success'
+          )
         })
+        .catch(function (error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+            footer: '<a href="">Why do I have this issue?</a>'
+          })
 
-      });
+        });
+    }else{
+      Swal.fire({
+        icon: 'error',
+        text: 'Şifrənizin təkrarını düzgün daxil edin',
+      })
+    }
 
 
 
   };
   const { t } = useTranslation();
+  console.log(newpassword);
+  console.log(repeatpass);
   return (
     <div className='row justify-content-between container'>
       <div className='col-lg-8 col-md-9 col-sm-12  mt-4'>
@@ -105,8 +115,9 @@ function UpdatePassword() {
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
-                <Form.Label className='labtext'>{t("confirmnewpass")} </Form.Label>
-                <Form.Control type="password" placeholder="" />
+                <Form.Label className='labtext' >{t("confirmnewpass")} </Form.Label>
+                <Form.Control type="password" onChange={(e) => setRepeatpass(e.target.value)} placeholder="" />
+                <p>{(repeatpass !== newpassword) ? 'Sifre Uygun Deyil' : ''}</p>
               </Form.Group>
 
 

@@ -14,6 +14,18 @@ function HallUpdate(props) {
     const [newaddress, setnewAddress]= useState();
     const [newplace, setnewPlace]= useState();
 
+    let token = JSON.parse(localStorage.getItem('token'))
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+    const bodyParameters = {
+        Id: id,
+        Name: newName,
+        Address: newaddress,
+        Place: newplace
+      };
+
     function initPromise() {
  
         const response = axios.get(`/api/Hall/GetById/${id}`)
@@ -25,15 +37,11 @@ function HallUpdate(props) {
     async function update(e) {
      
         e.preventDefault();
-        let token = JSON.parse(localStorage.getItem('token'));
-        await axios.put(`/api/Hall/UpdateHall/${id}`,{ headers: { "Authorization": `Bearer ${token}` } } , {
-            Id: id,
-            Name: newName,
-            Address: newaddress,
-            Place: newplace
-
-        }, { 'Content-Type': 'multipart/form-data' })
-            .then(function (response) {
+      
+        await axios.put(`/api/Hall/UpdateHall/${id}`, 
+        bodyParameters,
+        config
+        ).then(function (response) {
 
                 Swal.fire(
                     newName,

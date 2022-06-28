@@ -15,6 +15,7 @@ function Footer() {
         <div>
           <h4 className='call'>{t("dəstək")}:</h4>
           <h3 className='num heade'><Link className='number' to="/">+994514555007</Link></h3>
+          <h3 className='num heade'><Link className='number' to="/">code.test.iticket@gmail.com</Link></h3>
         </div>
 
       </div>

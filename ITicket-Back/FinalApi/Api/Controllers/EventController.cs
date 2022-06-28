@@ -14,9 +14,9 @@ namespace Api.Controllers
             _service = service;
         }
 
-        [Authorize]
         [HttpPost]
         [Route("CreateEvent")]
+        [Authorize(Roles = "SuperAdmin , Admin")]
         public async Task<IActionResult> Create([FromBody] EventCreateDto eventCreateDto)
         {
             await _service.CreateAsync(eventCreateDto);
@@ -24,7 +24,7 @@ namespace Api.Controllers
         }
         [HttpDelete]
         [Route("DeleteEvent/{id}")]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin , Admin")]
         public async Task<IActionResult> Delete([FromRoute]int id)
         {
             await _service.DeleteAsync(id);
@@ -32,9 +32,11 @@ namespace Api.Controllers
         }
         [HttpPut]
         [Route("UpdateEvent/{id}")]
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin , Admin")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] EventEditDto levent)
         {
+
+
             await _service.UpdateAsync(id, levent);
             return Ok();
         }

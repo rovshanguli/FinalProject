@@ -20,6 +20,23 @@ function CreateEvent() {
     const [halls, setHall] = useState([]);
     const [categories, setCategory] = useState([]);
 
+    let token = JSON.parse(localStorage.getItem('token'))
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+
+    const bodyParameters = {
+        Name: name,
+        Image: img,
+        Date: date,
+        BackImage: bgImg,
+        DetailImage: detailImg,
+        Price: price,
+        CategoryId: categoryId,
+        HallId: hallId
+    };
+
     function getBase64(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -47,19 +64,13 @@ function CreateEvent() {
     async function create(e) {
         
         e.preventDefault();
-        let token = JSON.parse(localStorage.getItem('token'));
+   
         
-        await axios.post('api/event/createEvent', { headers: { "Authorization": `Bearer ${token}` } } ,{
-            Name: name,
-            Image: img,
-            Date: date,
-            BackImage: bgImg,
-            DetailImage: detailImg,
-            Price: price,
-            CategoryId: categoryId,
-            HallId: hallId
-
-        }, { 'Content-Type': 'multipart/form-data' })
+        await axios.post('api/event/createEvent',
+        bodyParameters,
+        config
+        
+        )
             .then(function (response) {
                 
                 Swal.fire(

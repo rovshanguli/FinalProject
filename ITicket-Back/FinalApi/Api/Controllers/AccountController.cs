@@ -1,11 +1,11 @@
 ﻿using DomainLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.DTOs.AppUser;
 using ServiceLayer.Services.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 
@@ -107,6 +107,7 @@ namespace Api.Controllers
 
         }
 
+
         [HttpGet]
         [Route("GetUserByEmail/{email}")]
         public async Task<UserDto> GetUserByEmail([FromRoute] string email)
@@ -121,19 +122,21 @@ namespace Api.Controllers
         public async Task<IActionResult> GetAll()
         {
             var result = await _service.GetAllUsers();
+            result.Reverse();
             return Ok(result);
         }
 
         [HttpGet]
         [Route("ChangeRole/{id}")]
-        public async Task ChangeRole([FromRoute]string id)
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task ChangeRole([FromRoute] string id)
         {
             await _service.ChangeRole(id);
         }
 
         [HttpGet]
         [Route("GetRoles/{email}")]
-        public async Task<IActionResult> GetRoles([FromRoute]string email)
+        public async Task<IActionResult> GetRoles([FromRoute] string email)
         {
             return Ok(await _service.GetUserRoles(email));
         }

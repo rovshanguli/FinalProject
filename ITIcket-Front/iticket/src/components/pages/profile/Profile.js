@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Button, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
@@ -22,15 +22,18 @@ function Profile() {
   };
 
   const [user, setUser] = useState();
-  if (token != null) {
-    let usermail = parseJwt(token).sub[1]
-    axios.get(`api/Account/GetUserByEmail/${usermail}`)
-      .then((res) => {
-        setUser(res.data)
-
-      })
-
-  }
+  useEffect(() => {
+    //BasketResult();
+    if (token != null) {
+      let usermail = parseJwt(token).sub[1]
+      axios.get(`api/Account/GetUserByEmail/${usermail}`)
+        .then((res) => {
+          setUser(res.data)
+  
+        })
+  
+    }
+  },[])
 
   const [username, setUserName] = useState();
   const [fullname, setFullName] = useState();

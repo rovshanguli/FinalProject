@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState ,useEffect} from 'react';
 
 import { NavLink } from 'react-router-dom';
 
@@ -18,7 +18,7 @@ function SideBar() {
     };
 
     const [user, setUser] = useState();
-
+    
     useEffect(() => {
         if (token != null) {
             let email = parseJwt(token).sub[1]
@@ -28,10 +28,12 @@ function SideBar() {
                 })
         }
     }, [token])
+ 
 
-
-
+  
     let userdet = parseJwt(token)["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+
+
     let users;
     if (userdet === "SuperAdmin") {
         users = <li className="nav-item">
@@ -42,7 +44,7 @@ function SideBar() {
         users = ""
     }
 
-
+   
     return (
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
             <ul className="nav">
@@ -54,7 +56,7 @@ function SideBar() {
                         </div>
                         <div className="text-wrapper">
                             <p className="profile-name">{user?.fullName}</p>
-                            <p className="designation">{userdet}</p>
+                            <p className="designation">{userdet }</p>
                         </div>
                         <div className="icon-container">
                             <i className="icon-bubbles"></i>
@@ -74,10 +76,12 @@ function SideBar() {
 
                 </li>
                 <li className="nav-item">
+
+
                     <NavLink className="menu-title nav-link" to='/halls'><span >Hall</span></NavLink>
                     <i className="icon-screen-desktop menu-icon"></i>
-                </li>
 
+                </li>
 
                 <li className="nav-item">
 

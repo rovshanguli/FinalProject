@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Pagination } from "react-pagination-bar"
 import 'react-pagination-bar/dist/index.css'
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 function HallTable() {
 
@@ -13,12 +14,16 @@ function HallTable() {
 
     const pagePostsLimit = 5;
     let count = ((currentPage - 1) * pagePostsLimit);
+    let token = JSON.parse(localStorage.getItem('token'));
 
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
   
 
     function initPromise() {
-        let token = JSON.parse(localStorage.getItem('token'))
-        axios.get(`https://localhost:44351/api/hall/getallhalls`, { headers: { "Authorization": `Bearer ${token}` } })
+       
+        axios.get(`https://localhost:44351/api/hall/getallhalls`)
             .then(res => {
                 setHall(res.data);
            
@@ -33,7 +38,27 @@ function HallTable() {
     }, []);
 
     const deleteHall = async id => {
-        await axios.delete(`/api/Hall/DeleteHall/${id}`);
+        await axios.delete(`/api/Hall/DeleteHall/${id}`,
+        config
+        )
+        .then(function (response) {
+
+            Swal.fire(
+                "",
+                'Deleted',
+                'success'
+            )
+        })
+        .catch(function (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                footer: '<a href="">Why do I have this issue?</a>'
+            })
+
+        });
+        initPromise();
     }
 
     const HallUpdate = async id => {

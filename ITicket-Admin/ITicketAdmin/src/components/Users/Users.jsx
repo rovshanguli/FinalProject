@@ -4,6 +4,7 @@ import { Pagination } from "react-pagination-bar";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import Swal from 'sweetalert2';
 
 const style = {
     position: 'absolute',
@@ -31,13 +32,17 @@ function Users() {
     const pagePostsLimit = 5;
     let count = ((currentPage - 1) * pagePostsLimit);
 
+    let token = JSON.parse(localStorage.getItem('token'))
 
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
 
-
+  
     const loadUsers = async () => {
-        let token = JSON.parse(localStorage.getItem('token'))
-        await axios.get("https://localhost:44351/api/Account/GetAllUsers", { headers: { "Authorization": `Bearer ${token}` } })
-            .then(res => {
+      
+        await axios.get("https://localhost:44351/api/Account/GetAllUsers")
+        .then(res => {
                 setUser(res.data);
                 setTot(res.data.length)
             })
@@ -48,20 +53,39 @@ function Users() {
         handleOpen();
         setEmail(mail);
         setuserId(id);
-        getUserRole();
+        getUserRole(mail);
     }
 
     async function changeRole(e) {
         e.preventDefault();
-        await axios.get(`https://localhost:44351/api/Account/ChangeRole/${userid}`)
-            .then(res => {
-                
+
+        await axios.get(`https://localhost:44351/api/Account/ChangeRole/${userid}`,
+        
+        config
+        )
+        .then(function (response) {
+            handleClose()
+            Swal.fire(
+                "",
+                'Updated',
+                'success'
+            )
+        })
+        .catch(function (error) {
+            handleClose()
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                footer: '<a href="">Why do I have this issue?</a>'
             })
+
+        });
     }
 
-    async function getUserRole() {
-        debugger
-        await axios.get(`https://localhost:44351/api/Account/GetRoles/${email}`)
+    async function getUserRole(mail) {
+       
+        await axios.get(`https://localhost:44351/api/Account/GetRoles/${mail}`)
             .then(res => {
                 setRole(res.data);
             })
@@ -137,11 +161,12 @@ function Users() {
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         {email}
+                    
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         <h3>{role}</h3>
                         <button className='btn btn-outline-warning' onClick={(e) => changeRole(e)}>
-                            <i className="far fa-edit"></i></button>
+                            Change Role</button>
                     </Typography>
                 </Box>
             </Modal>

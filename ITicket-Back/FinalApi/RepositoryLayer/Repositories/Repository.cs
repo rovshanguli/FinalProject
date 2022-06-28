@@ -37,7 +37,7 @@ namespace RepositoryLayer.Repositories
 
         public async Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> predicate)
         {
-            IEnumerable<T> datas = await entities.Where(predicate).ToListAsync();
+            IEnumerable<T> datas = await entities.Where(m=>m.SoftDelete==false).Where(predicate).OrderByDescending(m=>m.Id).ToListAsync();
 
             return datas;
 
@@ -50,7 +50,7 @@ namespace RepositoryLayer.Repositories
 
         public async Task<List<T>> GetAllAsync()
         {
-            return await entities.ToListAsync();
+            return await entities.Where(m=>m.SoftDelete==false).OrderByDescending(m=> m.Id).ToListAsync();
         }
 
         public async Task<T> GetAsync(int id)

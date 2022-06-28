@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Form } from 'react-bootstrap';
-import Swal from 'sweetalert2';
+
 import '../../../../assets/sass/basket/borderticket.scss';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
@@ -24,14 +24,7 @@ function BorderTicket(params) {
     };
 
     const [user, setUser] = useState();
-    if (token != null) {
-        let usermail = parseJwt(token).sub[1]
-        axios.get(`api/Account/GetUserByEmail/${usermail}`)
-            .then((res) => {
-                setUser(res.data)
-            })
-
-    }
+  
     let seats = tickets.seats
 
 
@@ -67,7 +60,14 @@ function BorderTicket(params) {
 
         fetchResult()
 
-
+        if (token != null) {
+            let usermail = parseJwt(token).sub[1]
+            axios.get(`api/Account/GetUserByEmail/${usermail}`)
+                .then((res) => {
+                    setUser(res.data)
+                })
+    
+        }
 
     }, [tickets.id]);
 
@@ -80,7 +80,6 @@ function BorderTicket(params) {
     // let result = items.filter(event => event.price >= price[0] && event.price <= price[1] && moment(startAndEnd[0]).format('YYYY/MM/DD') < moment(event.date).format('YYYY/MM/DD'));
 
     function clearSeats(e) {
-        debugger
         e.preventDefault()
         localStorage.removeItem('seats')
         localStorage.setItem('seats', JSON.stringify([]))
@@ -89,17 +88,10 @@ function BorderTicket(params) {
         window.location.reload();
     }
 
-    function order(e) {
-        e.preventDefault()
-        if (user == null) {
-            Swal.fire({
-                position: 'top-end',
-                icon: 'info',
-                title: 'Hesabınıza daxil olun',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        } else {
+    function order() {
+        if(user == null){
+            alert('Please login to order')
+        }else{
             navigate('/order')
         }
     }
@@ -166,9 +158,9 @@ function BorderTicket(params) {
 
                                         <Form.Check type="checkbox" label=" Şərtləri və qaydaları qəbul edirəm." />
                                     </Form.Group>
-                                    <Button className='tickord' onClick={(e) => order(e)} type="submit" >
-                                        {t("createorder")}
-                                    </Button>
+                                        <Button className='tickord' onClick={(e) => order(e)} type="submit" >
+                                            {t("createorder")}
+                                        </Button>
                                 </Form>
                             </div>
                         </div>

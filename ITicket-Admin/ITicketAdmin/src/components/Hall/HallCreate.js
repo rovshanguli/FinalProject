@@ -22,21 +22,28 @@ function HallCreate() {
 
   async function create(e) {
     e.preventDefault();
-
-
     axios.post(
       '/api/Hall/CreateHall',
       bodyParameters,
       config
-    ).then((response) => {
-      Swal.fire({
-        title: 'Success',
-        text: 'Create Hall Success',
-        icon: 'success',
-        confirmButtonText: 'OK'
-      })
-    })
+    ) 
+    .then(function (response) {
 
+      Swal.fire(
+        hallname,
+        'Created',
+        'success'
+      )
+    })
+    .catch(function (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
+
+    });
 
 
   }

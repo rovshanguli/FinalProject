@@ -7,7 +7,14 @@ function SliderCreate() {
     //Prop for api start
 
     const [img, setImg] = useState();
+    let token = JSON.parse(localStorage.getItem('token'))
 
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+    const bodyParameters = {
+        Image: img
+    };
     //Prop for api end
 
     function getBase64(file) {
@@ -22,14 +29,11 @@ function SliderCreate() {
 
     async function create(e) {
         e.preventDefault();
-        let token = JSON.parse(localStorage.getItem('token'));
-        await axios.post('/api/Slider/Create', { headers: { "Authorization": `Bearer ${token}` } }, {
 
-
-            Image: img,
-
-
-        }, { 'Content-Type': 'multipart/form-data' })
+        await axios.post('/api/Slider/Create',
+            bodyParameters,
+            config
+        )
             .then(function (response) {
 
                 Swal.fire(

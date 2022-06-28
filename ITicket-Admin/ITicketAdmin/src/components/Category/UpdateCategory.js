@@ -11,6 +11,19 @@ function UpdateCategory(props) {
     const [name, setName] = useState();
     const [newName, setnewName] = useState();
 
+
+    let token = JSON.parse(localStorage.getItem('token'));
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+  
+    const bodyParameters = {
+        Id: id,
+        Name: newName,
+    };
+
+
     function initPromise() {
         const response = axios.get(`/api/Category/GetById/${id}`)
         return new Promise(function (res, rej) {
@@ -21,12 +34,11 @@ function UpdateCategory(props) {
     async function update(e) {
 
         e.preventDefault();
-        let token = JSON.parse(localStorage.getItem('token'));
-        await axios.put(`/api/Category/Update`, { headers: { "Authorization": `Bearer ${token}` } }, {
-            Id: id,
-            Name: newName,
-
-        }, { 'Content-Type': 'multipart/form-data' })
+       
+        await axios.put(`/api/Category/Update`, 
+        bodyParameters,
+        config
+        )
             .then(function (response) {
 
                 Swal.fire(

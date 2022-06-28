@@ -34,6 +34,26 @@ function UpdateEvent(props) {
   const [newdate, setnewDate] = useState();
 
 
+
+  let token = JSON.parse(localStorage.getItem('token'));
+
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  };
+
+  const bodyParameters = {
+    Id: id,
+    Name: newname,
+    Date: newdate,
+    Price: newprice,
+    CategoryId: newcategory,
+    HallId: newhall,
+    Image: newimg,
+    BackImage: newbgimg,
+    DetailImage: newdetailimg
+  };
+
+
   function initPromise() {
     const response = axios.get(`/api/Event/GetById/${id}`)
     return new Promise(function (res, rej) {
@@ -44,20 +64,11 @@ function UpdateEvent(props) {
   async function update(e) {
 
     e.preventDefault();
-    let token = JSON.parse(localStorage.getItem('token'))
-    await axios.put(`/api/Event/UpdateEvent/${id}`,{ headers: { "Authorization": `Bearer ${token}` } } , {
-      Id: id,
-      Name: newname,
-      Date: newdate,
-      Price: newprice,
-      CategoryId: newcategory,
-      HallId: newhall,
-      Image: newimg,
-      BackImage: newbgimg,
-      DetailImage: newdetailimg
-
-
-    }, { 'Content-Type': 'multipart/form-data' })
+ 
+    await axios.put(`/api/Event/UpdateEvent/${id}`,
+    bodyParameters,
+    config
+    )
       .then(function (response) {
 
         Swal.fire(

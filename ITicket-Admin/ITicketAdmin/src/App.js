@@ -61,6 +61,7 @@ function App() {
               <div className="row">
                 <Routes>
                   <Route path='/login' element={<Login user={setUser} />} />
+                  <Route path='/' element={<Login user={setUser} />} />
                   <Route element={<Protection />}>
                     <Route path="/events" element={<EventTable />} />
                     <Route path="/eventcreate" element={<CreateEvent />} />

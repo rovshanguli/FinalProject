@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Pagination } from "react-pagination-bar"
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 function EventTable() {
    
@@ -14,17 +15,44 @@ function EventTable() {
     const pagePostsLimit = 5;
     let count = ((currentPage - 1) * pagePostsLimit);
 
-    
+    let token = JSON.parse(localStorage.getItem('token'));
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
     
 
     const loadEvents = async () => {
-        let token = JSON.parse(localStorage.getItem('token'))
-        const result = await axios.get("https://localhost:44351/api/Event/GetAllEvents", { headers: { "Authorization": `Bearer ${token}` } });
-        setEvent(result.data);
-        setTot(result.data.length)
+        
+       
+       await axios.get(`https://localhost:44351/api/Event/GetAllEvents`) 
+        .then(res => {
+            setEvent(res.data);
+            setTot(res.data.length)
+        })
+      
     }
     const deleteEvent = async id => {
-        await axios.delete(`/api/Event/DeleteEvent/${id}`);
+        await axios.delete(`/api/Event/DeleteEvent/${id}`,
+        config
+        )
+        .then(function (response) {
+
+            Swal.fire(
+                "",
+                'Deleted',
+                'success'
+            )
+        })
+        .catch(function (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                footer: '<a href="">Why do I have this issue?</a>'
+            })
+
+        });
         loadEvents();
     }
 
@@ -36,7 +64,7 @@ function EventTable() {
     useEffect(() => {
         loadEvents();
     }, []);
-    
+    console.log(currentPage);
     return (
 
         <div className="col-lg-12 grid-margin stretch-card">

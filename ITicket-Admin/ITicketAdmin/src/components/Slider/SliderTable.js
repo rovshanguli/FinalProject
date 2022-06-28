@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 function SliderTable() { let count = 0;
 
     const [sliders, setSlider] = useState([]);
     
+    let token = JSON.parse(localStorage.getItem('token'));
 
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
     useEffect(() => {
         loadSlider();
 
@@ -20,7 +25,26 @@ function SliderTable() { let count = 0;
     }
     const deleteSlider= async id => {
         debugger
-        await axios.delete(`/api/Slider/Delete/${id}`);
+        await axios.delete(`/api/Slider/Delete/${id}`,
+        config
+        )
+        .then(function (response) {
+
+            Swal.fire(
+                "",
+                'Deleted',
+                'success'
+            )
+        })
+        .catch(function (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                footer: '<a href="">Why do I have this issue?</a>'
+            })
+
+        });
         loadSlider();
     }
 

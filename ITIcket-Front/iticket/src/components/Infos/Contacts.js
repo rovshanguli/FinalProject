@@ -24,7 +24,7 @@ function Contacts() {
 
             <div className='mt-4'>
               <b className='contacttext'>{t("contacttext")}</b>
-              <p className='contacttext'>info@iticket.az</p>
+              <p className='contacttext'>code.test.iticket@gmail.com</p>
             </div>
 
 

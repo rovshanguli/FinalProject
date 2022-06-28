@@ -6,18 +6,24 @@ import Swal from "sweetalert2";
 function CategoryCreate() {
     //Prop for api start
     const [categoryname, setCategoryname] = useState();
+    let token = JSON.parse(localStorage.getItem('token'))
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+
+    const bodyParameters = {
+        Name: categoryname
+    };
 
 
     async function create(e) {
         e.preventDefault();
-        let token = JSON.parse(localStorage.getItem('token'));
-        await axios.post('/api/Category/CreateCategory',{ headers: { "Authorization": `Bearer ${token}` } } , {
-
-            Name: categoryname,
-
-
-
-        }, { 'Content-Type': 'multipart/form-data' })
+      
+        await axios.post('/api/Category/CreateCategory',  
+        bodyParameters,
+        config
+        )
             .then(function (response) {
 
                 Swal.fire(
@@ -46,8 +52,8 @@ function CategoryCreate() {
         <div className='container'>
             <Form onSubmit={(e) => create(e)}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Hall Name</Form.Label>
-                    <Form.Control type="text" placeholder="Enter Hall Name" onChange={(e) => setCategoryname(e.target.value)} />
+                    <Form.Label>Category Name</Form.Label>
+                    <Form.Control type="text" placeholder="Enter Category Name" onChange={(e) => setCategoryname(e.target.value)} />
                 </Form.Group>
 
                 <Button variant="primary" type="submit" className='mt-3' >

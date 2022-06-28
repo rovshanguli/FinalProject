@@ -12,7 +12,16 @@ function SliderUpdate(props) {
 
   const [newImage, setnewImage] = useState();
 
+  let token = JSON.parse(localStorage.getItem('token'));
 
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  };
+
+  const bodyParameters = {
+    Id: id,
+    Image: newImage
+  };
   function initPromise() {
 
     const response = axios.get(`/api/Slider/GetById/${id}`)
@@ -24,13 +33,13 @@ function SliderUpdate(props) {
   async function update(e) {
 
     e.preventDefault();
-    let token = JSON.parse(localStorage.getItem('token'));
-    await axios.put(`/api/Slider/Update/${id}`,{ headers: { "Authorization": `Bearer ${token}` } } , {
-      Id: id,
-      Image: newImage
+  
+    await axios.put(`/api/Slider/Update/${id}`, 
+   
+    bodyParameters,
+    config
 
-
-    }, { 'Content-Type': 'multipart/form-data' })
+  )
       .then(function (response) {
 
         Swal.fire(

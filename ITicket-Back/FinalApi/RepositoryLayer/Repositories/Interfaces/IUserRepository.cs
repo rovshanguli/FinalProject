@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RepositoryLayer.Repositories.Interfaces
 {
-    public interface IUserRepository 
+    public interface IUserRepository
     {
         Task<List<AppUser>> GetAllAsync();
         Task<IList<string>> GetRoleAsync(string email);

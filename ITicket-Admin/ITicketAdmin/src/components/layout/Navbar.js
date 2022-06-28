@@ -9,6 +9,8 @@ function Navbar() {
         e.preventDefault()
         localStorage.clear();
 
+
+
         setForrender('');
         console.log(forrender);
         Swal.fire({

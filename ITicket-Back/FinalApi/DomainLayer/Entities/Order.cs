@@ -1,4 +1,4 @@
-﻿using DomainLayer.Common;
+﻿  using DomainLayer.Common;
 using System;
 
 namespace DomainLayer.Entities

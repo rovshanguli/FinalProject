@@ -69,8 +69,7 @@ namespace ServiceLayer.Services
 
         public async Task<IEnumerable<EventDto>> GetAllNameAsync(string search)
         {
-            var res = _mapper.Map<IEnumerable<EventDto>>(await _repository.FindAllAsync(m => m.Name.Contains(search)));
-            return res;
+            return _mapper.Map<IEnumerable<EventDto>>(await _repository.FindAllAsync(m => m.Name.Contains(search)));
         }
 
         public async Task<EventPaginateDto> Paginate(int num)
@@ -85,7 +84,5 @@ namespace ServiceLayer.Services
             eventPaginateDto.EventDtos = res;
             return eventPaginateDto;
         }
-
-        
     }
 }
