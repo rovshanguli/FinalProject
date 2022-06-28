@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.DTOs.AppUser;
 using ServiceLayer.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 
@@ -128,6 +129,13 @@ namespace Api.Controllers
         public async Task ChangeRole([FromRoute]string id)
         {
             await _service.ChangeRole(id);
+        }
+
+        [HttpGet]
+        [Route("GetRoles/{email}")]
+        public async Task<IActionResult> GetRoles([FromRoute]string email)
+        {
+            return Ok(await _service.GetUserRoles(email));
         }
     }
 }

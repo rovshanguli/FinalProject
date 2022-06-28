@@ -17,6 +17,6 @@ namespace ServiceLayer.Services.Interfaces
         Task<List<UserDto>> GetAllUsers();
         Task ChangeRole(string Id);
 
-
+        Task<IList<string>> GetUserRoles(string email);
     }
 }

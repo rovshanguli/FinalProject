@@ -108,5 +108,10 @@ namespace ServiceLayer.Services
         {
             await _repository.ChangeRole(id);
         }
+
+        public async Task<IList<string>> GetUserRoles(string email)
+        {
+           return await  _repository.GetRoleAsync(email);
+        }
     }
 }

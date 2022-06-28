@@ -48,13 +48,13 @@ namespace RepositoryLayer.Repositories
             return model;
         }
 
-        public async Task<string> GetRoleAsync(string email)
+        public async Task<IList<string>> GetRoleAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
-
-            var userRoles = "asdasd";
-            return userRoles;
+            var roles = await _userManager.GetRolesAsync(user);
+           
+            return roles;
         }
     }
 }

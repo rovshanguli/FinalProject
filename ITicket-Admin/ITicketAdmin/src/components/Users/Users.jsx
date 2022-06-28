@@ -26,6 +26,7 @@ function Users() {
     const handleClose = () => setOpen(false);
     const [email, setEmail] = useState('');
     const [userid, setuserId] = useState();
+    const [role, setRole] = useState();
 
     const pagePostsLimit = 5;
     let count = ((currentPage - 1) * pagePostsLimit);
@@ -47,7 +48,7 @@ function Users() {
         handleOpen();
         setEmail(mail);
         setuserId(id);
-
+        getUserRole();
     }
 
     async function changeRole(e) {
@@ -58,10 +59,18 @@ function Users() {
             })
     }
 
+    async function getUserRole() {
+        debugger
+        await axios.get(`https://localhost:44351/api/Account/GetRoles/${email}`)
+            .then(res => {
+                setRole(res.data);
+            })
+    }
+
     useEffect(() => {
         loadUsers();
     }, []);
-
+    console.log(role);
 
     return (
         <div className="col-lg-12 grid-margin stretch-card">
@@ -130,6 +139,7 @@ function Users() {
                         {email}
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        <h3>{role}</h3>
                         <button className='btn btn-outline-warning' onClick={(e) => changeRole(e)}>
                             <i className="far fa-edit"></i></button>
                     </Typography>
